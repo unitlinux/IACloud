@@ -37,9 +37,9 @@ iface lo inet6 loopback
 # primary interface
 auto eth0
 iface eth0 inet static
-  address 30.0.1.100
+  address 30.0.0.25
   netmask 255.255.255.0
-  gateway 30.0.1.1
+  gateway 30.0.0.1
   dns-nameservers 8.8.8.8
 
 # ipv6 configuration
@@ -48,8 +48,8 @@ iface eth0 inet6 auto
 Now edit your /etc/hosts file to look like this:
 
 127.0.0.1	localhost
-30.0.1.100	hanoman
-30.0.1.101	ravana
+30.0.0.100	hanoman
+30.0.0.101	ravana
 
 Be sure to put each machine in the cluster's IP then name in the /etc/hosts file.
 
