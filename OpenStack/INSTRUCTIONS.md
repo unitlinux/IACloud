@@ -18,8 +18,9 @@ Remotely log into your new server and install *git* with *aptitude*:
 
 Checkout the StackGeek OpenStack setup scripts from Github:
 
-    git clone git://github.com/StackGeek/openstackgeek.git
-    cd openstackgeek/icehouse
+    git clone git://github.com/unitlinux/IACloud.git
+    chmod -R 755 IACloud
+    cd IACloud/OpenStack
 
 #### Network Interfaces
 You need to manually configure your ethernet interface to support a non-routable static IPv4 address and an auto configured IPv6 address.
