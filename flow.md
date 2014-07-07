@@ -4,6 +4,7 @@ The scripts in this directory use a flag for determining install flow.  If the u
     ./OpenStack/openstack_networking.sh
     ./Bacula/bacula_install.sh
     ./Webmin/webmin_install.sh
+### Create first backup of system before proceed
 
     ./openstack_server_test.sh
     ./openstack_system_update.sh
