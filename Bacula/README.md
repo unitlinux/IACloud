@@ -120,6 +120,10 @@ sudo /etc/init.d/bacula-fd restart
 sudo /etc/init.d/bacula-sd restart
 That’s it. Now, bacula has been installed and configured successfully.
 
+#
+netstat -anp | grep LISTEN | grep bacula-dir
+
+
 ## Bacula-web configuration
 
 Download the source tarball
@@ -312,7 +316,21 @@ and add the content below
 <Directory /var/www/html/bacula-web>
   AllowOverride All
 </Directory>
+
 Then reload Apache to apply the configuration change
 
 Debian / Ubuntu
 $ sudo /etc/init.d/apache2 restart
+
+
+Some Permission denied errors:
+
+su -m bacula -c '/usr/sbin/dbcheck -B -c /etc/bacula/bacula-dir.conf'
+Cannot open config file "/etc/bacula/bacula-dir.conf": Permission denied
+
+chown -R bacula:bacula /etc/bacula/
+
+Error:
+Cannot find any appendable volumes. Please use the "label" command to create a new Volume for: Storage
+
+Write in bacula-dir.conf in Pool section - Label Format = "Full-${Year}_${Month}_${Day}"

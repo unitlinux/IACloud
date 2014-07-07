@@ -1,7 +1,10 @@
 ## Script Flow
 The scripts in this directory use a flag for determining install flow.  If the user is installing the OpenStack controller, the flow goes like this:
 
-    ./openstack_networking.sh
+    ./OpenStack/openstack_networking.sh
+    ./Bacula/bacula_install.sh
+    ./Webmin/webmin_install.sh
+
     ./openstack_server_test.sh
     ./openstack_system_update.sh
     ./openstack_setup.sh
