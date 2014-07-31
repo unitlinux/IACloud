@@ -6,32 +6,35 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+a2enmod php5
+a2enmod rewrite
+
 wget http://downloads.sourceforge.net/project/webacula/webacula/5.5.1/webacula-5.5.1.tar.gz
 tar -zxvf webacula-5.5.1.tar.gz
 mv webacula-5.5.1 /var/www/html/webacula
 
 
-wget https://packages.zendframework.com/releases/ZendFramework-2.3.1/ZendFramework-2.3.1.tgz
-tar -zxvf ZendFramework-2.3.1.tgz
-cd ZendFramework-2.3.1
-cp -r library /var/www/html/webacula/
+wget https://packages.zendframework.com/releases/ZendFramework-1.12.3/ZendFramework-1.12.3.tar.gz
+tar -zxvf ZendFramework-1.12.3.tar.gz
+mv ZendFramework-1.12.3/library/Zend/ /var/www/html/webacula/library/
+cp -r ZendFramework-1.12.3/library/Zend/ /var/www/html/webacula/library/
 
 nano /var/www/html/webacula/install/db.conf
 
-# bacula settings (nome do banco do bacula)
+# bacula settings
 #db_name="bacula"
 # for Sqlite only
 #db_name_sqlite="/var/bacula/working/bacula.db"
 #db_user="root"
 
 ## CHANGE_THIS
-#db_pwd="12345" # <==(Modifique!! Senha de usuário admin do banco de dados)
+#db_pwd="12345"
 
 # Webacula web interface settings
 ...
 #
 # CHANGE_THIS
-#webacula_root_pwd="12345" #<==(Modifique! Insira a senha do usuário administrador do Webacula).
+#webacula_root_pwd="12345"
 cd /var/www/html/webacula/install/MySql
  ./10_make_tables.sh
  ./20_acl_make_tables.sh
@@ -64,17 +67,33 @@ nano /var/www/html/webacula/application/config.ini
 #db.config.username = root
 #db.config.password = 12345
 #db.config.dbname = bacula
+#def.timezone = "Europe/Moscow"
 #...
 #bacula.sudo = ""
-#bacula.bconsole = "/sbin/bconsole"
+#bacula.bconsole = "/usr/bin/bconsole"
 
 chown www-data: /usr/bin/bconsole
 chmod u=rwx,g=rx,o= /usr/bin/bconsole
 chown www-data: /etc/bacula/bconsole.conf
 chmod u=rw,g=r,o= /etc/bacula/bconsole.conf
-chown -R www-data: /var/www/html/webacula
+chown -R www-data:www-data /var/www/html/webacula
 
 nano /etc/apache2/sites-available/webacula.conf
+
+apt-get install php-pear php5 php5-dev
+apt-get install libmysqlclient15-dev
+
+nano /usr/include/php5/Zend/zend.h
+#Нужно в /usr/include/php5/Zend/zend.h в район 320 строки добавить
+
+#define refcount refcount__gc
+#define is_ref is_ref__gc
+
+nano /usr/include/php5/Zend/zend_API.h
+#А в /usr/include/php5/Zend/zend_API.h в район 50 строки
+#define object_pp object_ptr
+
+
 
 #Paste these lines:
 #Alias /webacula /var/www/html/webacula/html
